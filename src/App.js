@@ -11,7 +11,8 @@ const App = () => {
   };
 
   useEffect(() => {
-    setDaysRange(createRange(1, 100));
+    console.log(create9WeeksFrame().map(date => date.getDate()));
+    setDaysRange(create9WeeksFrame().map(date => ( {day: date.getDate(), month: date.getMonth() + 1, year: date.getFullYear()} )));
 
     const calendarContainer = document.querySelector('#calendar-parent');
     if (calendarContainer) {
@@ -21,8 +22,16 @@ const App = () => {
           setDaysRange(range => {
             const rangeLength = range.length
             const lastDay = range[rangeLength - 1];
-            const additionalRange = createRange(lastDay + 1, lastDay + 50);
-            return [...range, ...additionalRange];
+            // const additionalRange = createRange(lastDay + 1, lastDay + 50);
+            let dates = [];
+            console.log('lastDay', lastDay);
+            let currentDay = new Date(`${lastDay.month + 1}-${lastDay.day}-${lastDay.year}`);
+            for (let i = 0; i < 31; i++) {
+              const nextDate = new Date(currentDay.setDate(currentDay.getDate() + 1));
+              dates.push(nextDate)
+            };
+            const formatedDates = dates.map(date => ( {day: date.getDate(), month: date.getMonth(), year: date.getFullYear()} ));
+            return [...range, ...formatedDates];
           });
         };
       };
@@ -41,25 +50,27 @@ const App = () => {
             <div style={{ height: '40px' }} className='group border border-dark'>Date</div>
             {groups.map(group => {
               return (
-                <div key={group} id={`group-${group}`} style={{ height: '40px' }} className='group border border-dark'>{`Group ${group}`}</div>
+                <div key={group} id={`group-${group}`} style={{ height: '40px' }} className='px-10 group border border-dark'>{`Group ${group}`}</div>
               )
             })}
           </div>
 
-          <div id='calendar-parent' className='overflow-scroll border border-red'>
+          <div id='calendar-parent' className='overflow-scroll border border-red flex-grow'>
             <div id='calendar-child' className='flex'>
-              {daysRange.map(day => {
+              {daysRange.map(date => {
+                const formatedDate = `${date.day}/${date.month}`;
                 return (
-                  <div key={day} style={{ flex: '0 0 40px', height: '40px' }} className='day  text-red-500'>{day}</div>
+                  <div key={formatedDate} style={{ flex: '0 0 40px', height: '40px' }} className='day  text-red-500'>{formatedDate}</div>
                 )
               })}
             </div>
             {groups.map(group => {
               return (
                 <div key={group} id={`row-group-${group}`} className='flex'>
-                  {daysRange.map(day => {
+                  {daysRange.map(date => {
+                    const formatedDate = `${date.day}/${date.month}`;
                     return (
-                      <div key={day} id={`elem-${group}-${day}`} style={{ flex: '0 0 40px', height: '40px' }} className=' relative'></div>
+                      <div key={formatedDate} id={`elem-${group}-${date.day}`} style={{ flex: '0 0 40px', height: '40px' }} className=' relative'></div>
                     )
                   })}
                 </div>
@@ -98,14 +109,44 @@ const App = () => {
     group.style.height = `${row.offsetHeight}px`;
   };
 
-  // window.onscroll = debounce(() => {
-  //   if (
-  //     window.innerHeight + document.documentElement.scrollTop
-  //     === document.documentElement.offsetHeight
-  //   ) {
-  //     // Do awesome stuff like loading more content!
-  //   }
-  // }, 100);
+  const create9WeeksFrame = () => {
+    const dates = [];
+    const today = new Date();
+    const month = today.getMonth();
+    dates.push(new Date());
+
+    // let nextMonthReached = false;
+    // let currentDay = today;
+    // while (!nextMonthReached) {
+    //   const nextDate = new Date(currentDay.setDate(currentDay.getDate() + 1));
+    //   nextDate.getMonth() === month
+    //     ? dates.push(nextDate)
+    //     : nextMonthReached = true
+    // };
+
+    // let previousMonthReached = false;
+    // currentDay = new Date();
+    // while (!previousMonthReached) {
+    //   const previousDate = new Date(currentDay.setDate(currentDay.getDate() - 1));
+    //   previousDate.getMonth() === month
+    //     ? dates.push(previousDate)
+    //     : previousMonthReached = true
+    // };
+
+    let currentDay = new Date();
+    for (let i = 0; i < 31; i++) {
+      const nextDate = new Date(currentDay.setDate(currentDay.getDate() + 1));
+      dates.push(nextDate)
+    };
+
+    currentDay = new Date();
+    for (let i = 31; i > 0; i--) {
+      const nextDate = new Date(currentDay.setDate(currentDay.getDate() - 1));
+      dates.push(nextDate)
+    };
+
+    return dates.sort((a, b) => a - b);
+  };
 
   return (
     <div>
