@@ -1,16 +1,36 @@
-import logo from './logo.svg';
+import React, { useEffect, useState } from 'react';
 import './App.css';
 
 const App = () => {
 
-  const renderCalendar = () => {
-    const range = (start, end) => {
-      const length = end - start;
-      return Array.from({ length }, (_, i) => start + i);
-    };
+  const [daysRange, setDaysRange] = useState([]);
 
-    const days = range(1, 100);
-    const groups = range(1, 10);
+  const createRange = (start, end) => {
+    const length = end - start;
+    return Array.from({ length }, (_, i) => start + i);
+  };
+
+  useEffect(() => {
+    setDaysRange(createRange(1, 100));
+
+    const calendarContainer = document.querySelector('#calendar-parent');
+    if (calendarContainer) {
+      console.log(document.querySelector('#calendar-parent'));
+      calendarContainer.onscroll = function () {
+        if (calendarContainer.scrollWidth - 100 <= calendarContainer.clientWidth + calendarContainer.scrollLeft) {
+          setDaysRange(range => {
+            const rangeLength = range.length
+            const lastDay = range[rangeLength - 1];
+            const additionalRange = createRange(lastDay + 1, lastDay + 50);
+            return [...range, ...additionalRange];
+          });
+        };
+      };
+    };
+  }, []);
+
+  const renderCalendar = () => {
+    const groups = createRange(1, 10);
 
     return (
       <>
@@ -26,20 +46,20 @@ const App = () => {
             })}
           </div>
 
-          <div id='day-blocks' className='overflow-scroll border border-red'>
-            <div className='flex'>
-              {days.map(day => {
+          <div id='calendar-parent' className='overflow-scroll border border-red'>
+            <div id='calendar-child' className='flex'>
+              {daysRange.map(day => {
                 return (
-                  <div key={day} style={{ flex: '0 0 40px', height: '40px' }} className='day border border-dark text-red-500'>{day}</div>
+                  <div key={day} style={{ flex: '0 0 40px', height: '40px' }} className='day  text-red-500'>{day}</div>
                 )
               })}
             </div>
             {groups.map(group => {
               return (
                 <div key={group} id={`row-group-${group}`} className='flex'>
-                  {days.map(day => {
+                  {daysRange.map(day => {
                     return (
-                      <div key={day} id={`elem-${group}-${day}`} style={{ flex: '0 0 40px', height: '40px' }} className='border border-dark relative'></div>
+                      <div key={day} id={`elem-${group}-${day}`} style={{ flex: '0 0 40px', height: '40px' }} className=' relative'></div>
                     )
                   })}
                 </div>
@@ -77,6 +97,15 @@ const App = () => {
     console.log('group', group);
     group.style.height = `${row.offsetHeight}px`;
   };
+
+  // window.onscroll = debounce(() => {
+  //   if (
+  //     window.innerHeight + document.documentElement.scrollTop
+  //     === document.documentElement.offsetHeight
+  //   ) {
+  //     // Do awesome stuff like loading more content!
+  //   }
+  // }, 100);
 
   return (
     <div>
