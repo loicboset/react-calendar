@@ -17,7 +17,6 @@ const Timeline = () => {
       const items = [];
       const groups = [];
 
-
       for (let i = 0; i < groupNumber; i++) {
         groups.push({
           id: i,
@@ -27,8 +26,8 @@ const Timeline = () => {
 
       for (let i = 0; i < groups.length; i++) {
 
-        let baseStartDate = new Date('2021', '01', '01', '12', '0', '0');
-        let baseEndDate = new Date('2021', '01', '05', '12', '0', '0');
+        let baseStartDate = new Date('2021', '01', '15', '12', '0', '0');
+        let baseEndDate = new Date('2021', '01', '19', '12', '0', '0');
         for (let x = 0; x < itemsPerGroup; x++) {
           items.push({
             id: i,
