@@ -4,7 +4,6 @@ const Sidebar = ({ groups }) => {
 
   return (
     <div id='sidebar' className='w-6/12'>
-      <div style={{ height: '40px' }} className='group border border-dark'>Months</div>
       <div style={{ height: '40px' }} className='group border border-dark'>Date</div>
       {groups.map(group => {
         return (
