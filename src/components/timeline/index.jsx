@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Sidebar from './sidebar/index';
 import Calendar from './calendar/index';
 import ItemComponent from './ItemComponent';
+import Form from '../form/index';
 
 const Timeline = () => {
 
@@ -32,7 +33,6 @@ const Timeline = () => {
           items.push({
             id: i,
             group: i,
-            // title: `item ${i}`,
             title: (<ItemComponent />),
             start_time: baseStartDate,
             end_time: baseEndDate,
@@ -45,18 +45,21 @@ const Timeline = () => {
       return {items, groups};
     };
 
-    const mockedData = mockData(40, 4);
-    console.log('mockedData', mockedData);
+    const mockedData = mockData(2, 2);
     setGroups(mockedData.groups);
     setItems(mockedData.items);
 
   }, []);
 
   return (
-    <div id='wrapper' className='flex'>
-      <Sidebar groups={groups} />
-      <Calendar groups={groups} items={items} />
-    </div>
+    <>
+      <div id='wrapper' className='flex'>
+        <Sidebar groups={groups} />
+        <Calendar groups={groups} items={items} />
+      </div>
+      {/* FOR TESTING PURPOSES */}
+      <Form setGroups={setGroups} setItems={setItems} />
+    </>
   );
 };
 

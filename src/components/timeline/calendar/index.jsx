@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import DateHeader from './DateHeader';
 import DateRow from './DateRow';
-import { create9WeeksFrame, placeItemsOnCalendar } from './utils';
+import { create9WeeksFrame } from './utils';
 
 const Calendar = ({ groups, items }) => {
 
@@ -46,11 +46,6 @@ const Calendar = ({ groups, items }) => {
     };
 
   }, []);
-
-  useEffect(() => {
-    placeItemsOnCalendar(items, daysRange, setDaysRange);
-
-  }, [items, daysRange]);
 
   return (
     <div id='calendar' className='overflow-scroll border border-red flex-grow'>
