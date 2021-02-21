@@ -7,7 +7,7 @@ const Sidebar = ({ groups }) => {
       <div style={{ height: '40px' }} className='group border border-dark'>Date</div>
       {groups.map(group => {
         return (
-          <div key={group} id={`group-${group}`} style={{ height: '40px' }} className='px-10 group border border-dark'>{`Group ${group}`}</div>
+          <div key={group.id} id={`group-${group.id}`} style={{ height: '40px' }} className='px-10 group border border-dark'>{group.title}</div>
         )
       })}
     </div>

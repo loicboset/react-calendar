@@ -1,12 +1,21 @@
 import React, { useEffect, useState } from 'react';
-import { create9WeeksFrame } from './utils';
+import DateHeader from './DateHeader';
+import DateRow from './DateRow';
+import { create9WeeksFrame, placeItemsOnCalendar } from './utils';
 
-const Calendar = ({ groups }) => {
+const Calendar = ({ groups, items }) => {
 
   const [daysRange, setDaysRange] = useState([]);
 
   useEffect(() => {
-    setDaysRange(create9WeeksFrame().map(date => ( {day: date.getDate(), month: date.getMonth() + 1, year: date.getFullYear()} )));
+    setDaysRange(create9WeeksFrame().map(date => {
+      return {
+        day: date.getDate(),
+        month: date.getMonth() + 1,
+        year: date.getFullYear(),
+        itemAttached: undefined,
+      };
+    }));
 
     const calendarContainer = document.querySelector('#calendar');
     if (calendarContainer) {
@@ -21,34 +30,35 @@ const Calendar = ({ groups }) => {
               const nextDate = new Date(currentDay.setDate(currentDay.getDate() + 1));
               dates.push(nextDate)
             };
-            const formatedDates = dates.map(date => ( {day: date.getDate(), month: date.getMonth(), year: date.getFullYear()} ));
+            const formatedDates = dates.map(date => {
+              return {
+                day: date.getDate(),
+                month: date.getMonth(),
+                year: date.getFullYear(),
+                attachedItem: undefined,
+              };
+            })
+
             return [...range, ...formatedDates];
           });
         };
       };
     };
+
   }, []);
+
+  useEffect(() => {
+    placeItemsOnCalendar(items, daysRange, setDaysRange);
+
+  }, [items, daysRange]);
 
   return (
     <div id='calendar' className='overflow-scroll border border-red flex-grow'>
-      <div className='flex'>
-        {daysRange.map(date => {
-          const formatedDate = `${date.day}/${date.month}`;
-          return (
-            <div key={formatedDate} style={{ flex: '0 0 40px', height: '40px' }} className='day  text-red-500'>{formatedDate}</div>
-          )
-        })}
-      </div>
-      {groups.map(group => {
+      <DateHeader daysRange={daysRange} />
+      {groups.map((group, index) => {
+        const groupItems = items.filter(item => item.group === index);
         return (
-          <div key={group} id={`row-group-${group}`} className='flex'>
-            {daysRange.map(date => {
-              const formatedDate = `${date.day}/${date.month}`;
-              return (
-                <div key={formatedDate} id={`elem-${group}-${date.day}`} style={{ flex: '0 0 40px', height: '40px' }} className=' relative'></div>
-              )
-            })}
-          </div>
+          <DateRow key={group.id} daysRange={daysRange} group={group} items={groupItems} />
         )
       })}
     </div>
