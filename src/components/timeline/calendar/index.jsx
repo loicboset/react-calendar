@@ -44,11 +44,11 @@ const Calendar = ({ groups, items }) => {
             return [...sortedDays];
           });
         } else if (calendarContainer.scrollLeft <= 100 && calendarContainer.scrollLeft !== 0 ) {
-          console.log('scrollLeft', calendarContainer.scrollLeft);
           setDaysRange(range => {
             const firstDay = range[0];
             let dates = [];
             let currentDay = new Date(`${firstDay.month}-${firstDay.day}-${firstDay.year}`);
+            console.log('setting left day', currentDay);
             setScrollLeftDay(currentDay);
             for (let i = 0; i < 31; i++) {
               const previousDate = new Date(currentDay.setDate(currentDay.getDate() - 1));
@@ -65,6 +65,8 @@ const Calendar = ({ groups, items }) => {
             const sortedDays = [...formatedDates, ...range].sort((a, b) => a.time - b.time);
             return [...sortedDays];
           });
+          calendarContainer.scrollLeft = 101;
+          console.log('calendarContainer.scrollLeft', calendarContainer.scrollLeft);
         };
 
       };

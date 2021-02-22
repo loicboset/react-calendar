@@ -16,9 +16,7 @@ const DateHeader = ({ daysRange, scrollLeftDay }) => {
   }, []);
 
   useEffect(() => {
-    console.log('scrollLeftRef.current', scrollLeftRef.current);
     if (scrollLeftRef.current) {
-      console.log('if executed');
       scrollLeftRef.current.scrollIntoView({
         inline: 'start'
       });
@@ -67,7 +65,7 @@ const DateHeader = ({ daysRange, scrollLeftDay }) => {
             if (isToday) {
               ref = todayRef;
             } else if (isScrollLeftRef) {
-              console.log('setting scrollLeftRef', formatedDate);
+              console.log('setting scrollLeftRef', scrollLeftRef);
               ref = scrollLeftRef;
             };
             return (
