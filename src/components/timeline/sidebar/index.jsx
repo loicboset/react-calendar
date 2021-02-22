@@ -3,7 +3,7 @@ import React from 'react';
 const Sidebar = ({ groups }) => {
 
   return (
-    <div id='sidebar' className='w-6/12'>
+    <div id='sidebar'>
       <div style={{ height: '40px' }} className='group border border-dark'>Date</div>
       {groups.map(group => {
         return (
