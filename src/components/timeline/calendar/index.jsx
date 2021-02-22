@@ -43,7 +43,7 @@ const Calendar = ({ groups, items, daysRange, setDaysRange }) => {
       let callback = (entries, observer) => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
-            const calendarContainer = document.querySelector('#calendar')
+            const calendarContainer = document.querySelector('#calendar');
             getPastDays(setDaysRange, calendarContainer);
           };
         })

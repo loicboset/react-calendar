@@ -5,7 +5,7 @@ export const create9WeeksFrame = () => {
   dates.push(new Date());
 
   let currentDay = new Date();
-  for (let i = 0; i < 31; i++) {
+  for (let i = 0; i < 51; i++) {
     const nextDate = new Date(currentDay.setDate(currentDay.getDate() + 1));
     dates.push(nextDate)
   };
@@ -38,7 +38,7 @@ export const getFutureDays = setDaysRange => {
         year: date.getFullYear(),
       };
     })
-    // const slicedRange = range.splice(0, 31);
+    // const slicedRange = range.splice(0, 3);
     const sortedDays = [...range, ...formatedDates].sort((a, b) => a.time - b.time);
     return [...sortedDays];
   });
