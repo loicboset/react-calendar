@@ -18,3 +18,55 @@ export const create9WeeksFrame = () => {
 
   return dates.sort((a, b) => a - b);
 };
+
+export const getFutureDays = setDaysRange => {
+  setDaysRange(range => {
+    if (range.length === 0) return range;
+    const rangeLength = range.length;
+    const lastDay = range[rangeLength - 1];
+    let dates = [];
+    let currentDay = new Date(`${lastDay.month}-${lastDay.day}-${lastDay.year}`);
+    for (let i = 0; i < 10; i++) {
+      const nextDate = new Date(currentDay.setDate(currentDay.getDate() + 1));
+      dates.push(nextDate)
+    };
+    const formatedDates = dates.map(date => {
+      return {
+        time: date.getTime(),
+        day: date.getDate(),
+        month: date.getMonth() + 1,
+        year: date.getFullYear(),
+      };
+    })
+    // const slicedRange = range.splice(0, 31);
+    const sortedDays = [...range, ...formatedDates].sort((a, b) => a.time - b.time);
+    return [...sortedDays];
+  });
+};
+
+export const getPastDays = (setDaysRange, container) => {
+  setDaysRange(range => {
+    if (range.length === 0) return range;
+    const rangeLength = range.length;
+    const firstDay = range[0];
+    let dates = [];
+    let currentDay = new Date(`${firstDay.month}-${firstDay.day}-${firstDay.year}`);
+    for (let i = 0; i < 31; i++) {
+      const nextDate = new Date(currentDay.setDate(currentDay.getDate() - 1));
+      dates.push(nextDate)
+    };
+    const formatedDates = dates.map(date => {
+      return {
+        time: date.getTime(),
+        day: date.getDate(),
+        month: date.getMonth() + 1,
+        year: date.getFullYear(),
+      };
+    })
+    // const slicedRange = range.splice(0, 31);
+    const sortedDays = [...range, ...formatedDates].sort((a, b) => a.time - b.time);
+    return [...sortedDays];
+  });
+  container.scrollLeft += 31 * 40;
+};
+

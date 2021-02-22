@@ -8,6 +8,7 @@ const Timeline = () => {
 
   const [groups, setGroups] = useState([]);
   const [items, setItems] = useState([]);
+  const [daysRange, setDaysRange] = useState([]);
 
   useEffect(() => {
     //NOTE(lb): ideally, we would change the keys from start_time and end_time
@@ -50,14 +51,82 @@ const Timeline = () => {
 
   }, []);
 
+  const handleAddDay = (operation) => {
+    // setDaysRange(range => {
+    //   const lastDay = new Date(range[0].time);
+    //   console.log('last day', lastDay);
+    //   const previousDay = new Date(lastDay.setDate(lastDay.getDate() - 1));
+    //   console.log('previousDay', previousDay);
+    //   const newDay = {
+    //     time: previousDay.getTime(),
+    //     day: previousDay.getDate(),
+    //     month: previousDay.getMonth() + 1,
+    //     year: previousDay.getFullYear(),
+    //   };
+    //   return [newDay, ...range];
+    // });
+    if (operation === '-') {
+      const calendar = document.querySelector('#calendar');
+      setDaysRange(range => {
+        if (range.length === 0) return range;
+        const rangeLength = range.length;
+        const firstDay = range[0];
+        let dates = [];
+        let currentDay = new Date(`${firstDay.month}-${firstDay.day}-${firstDay.year}`);
+        for (let i = 0; i < 31; i++) {
+          let nextDate = new Date(currentDay.setDate(currentDay.getDate() - 1))
+          dates.push(nextDate)
+        };
+        const formatedDates = dates.map(date => {
+          return {
+            time: date.getTime(),
+            day: date.getDate(),
+            month: date.getMonth() + 1,
+            year: date.getFullYear(),
+          };
+        })
+        console.log('formatedDates', formatedDates);
+        // const slicedRange = range.splice(0, 31);
+        const sortedDays = [...range, ...formatedDates].sort((a, b) => a.time - b.time);
+        return [...sortedDays];
+      });
+      calendar.scrollLeft += 31 * 40;
+    } else {
+      setDaysRange(range => {
+        if (range.length === 0) return range;
+        const rangeLength = range.length;
+        const lastDay = range[rangeLength - 1];
+        let dates = [];
+        let currentDay = new Date(`${lastDay.month}-${lastDay.day}-${lastDay.year}`);
+        for (let i = 0; i < 10; i++) {
+          const nextDate = new Date(currentDay.setDate(currentDay.getDate() + 1));
+          dates.push(nextDate)
+        };
+        const formatedDates = dates.map(date => {
+          return {
+            time: date.getTime(),
+            day: date.getDate(),
+            month: date.getMonth() + 1,
+            year: date.getFullYear(),
+          };
+        })
+        // const slicedRange = range.splice(0, 31);
+        const sortedDays = [...range, ...formatedDates].sort((a, b) => a.time - b.time);
+        return [...sortedDays];
+      });
+    };
+  };
+
   return (
     <>
       <div id='wrapper' className='flex'>
         <Sidebar groups={groups} />
-        <Calendar groups={groups} items={items} />
+        <Calendar groups={groups} items={items} daysRange={daysRange} setDaysRange={setDaysRange} />
       </div>
       {/* FOR TESTING PURPOSES */}
       <Form setGroups={setGroups} setItems={setItems} />
+      <button onClick={() => handleAddDay('-')}>Add day in the past</button>
+      <button onClick={() => handleAddDay('+')}>Add day in the future</button>
     </>
   );
 };
