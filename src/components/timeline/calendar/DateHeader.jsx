@@ -1,19 +1,30 @@
 import React, { useEffect, useState, useRef, useCallback } from 'react';
 
-const DateHeader = ({ daysRange }) => {
+const DateHeader = ({ daysRange, scrollLeftDay }) => {
 
-  const activeDayRef = useRef(null);
+  const scrollLeftRef = useRef(null);
   // const [months, setMonths]= useState([
   //   // {'01-2021': {days: 11}}
   // ])
 
-  const measuredRef = useCallback(node => {
+  const todayRef = useCallback(node => {
     if (node !== null) {
       node.scrollIntoView({
         inline: 'start'
       });
     }
   }, []);
+
+  useEffect(() => {
+    console.log('scrollLeftRef.current', scrollLeftRef.current);
+    if (scrollLeftRef.current) {
+      console.log('if executed');
+      scrollLeftRef.current.scrollIntoView({
+        inline: 'start'
+      });
+    };
+
+  }, [scrollLeftDay])
 
   useEffect(() => {
     // const monthsArray = [];
@@ -49,17 +60,23 @@ const DateHeader = ({ daysRange }) => {
       <div className='flex'>
           {daysRange.map(date => {
             const formatedDate = `${date.day}/${date.month}`;
-            // ref={i === activeSlide ? activeSlideRef : null}
             const today = new Date();
             const isToday = today.getDate() === date.day && today.getMonth() + 1 === date.month && today.getFullYear() === date.year;
-            // console.log('today.getDate', today.getDate, 'date.day', date.day);
+            const isScrollLeftRef = scrollLeftDay.getDate() === date.day && scrollLeftDay.getMonth() + 1 === date.month && scrollLeftDay.getFullYear() === date.year;
+            let ref = null;
+            if (isToday) {
+              ref = todayRef;
+            } else if (isScrollLeftRef) {
+              console.log('setting scrollLeftRef', formatedDate);
+              ref = scrollLeftRef;
+            };
             return (
               <div
                 key={formatedDate}
                 id={`date-${date.day}-${date.month}-${date.year}`}
                 style={{ flex: '0 0 40px', height: '40px' }}
                 className='day  text-red-500'
-                ref={isToday ? measuredRef : null}
+                ref={ref}
               >
                 {formatedDate}
               </div>

@@ -6,6 +6,7 @@ import { create9WeeksFrame } from './utils';
 const Calendar = ({ groups, items }) => {
 
   const [daysRange, setDaysRange] = useState([]);
+  const [scrollLeftDay, setScrollLeftDay] = useState(new Date());
 
   useEffect(() => {
     setDaysRange(create9WeeksFrame().map(date => {
@@ -42,12 +43,14 @@ const Calendar = ({ groups, items }) => {
             const sortedDays = [...range, ...formatedDates].sort((a, b) => a.time - b.time);
             return [...sortedDays];
           });
-        } else if (calendarContainer.scrollLeft <= 100) {
+        } else if (calendarContainer.scrollLeft <= 100 && calendarContainer.scrollLeft !== 0 ) {
+          console.log('scrollLeft', calendarContainer.scrollLeft);
           setDaysRange(range => {
             const firstDay = range[0];
             let dates = [];
             let currentDay = new Date(`${firstDay.month}-${firstDay.day}-${firstDay.year}`);
-            for (let i = 0; i < 5; i++) {
+            setScrollLeftDay(currentDay);
+            for (let i = 0; i < 31; i++) {
               const previousDate = new Date(currentDay.setDate(currentDay.getDate() - 1));
               dates.push(previousDate);
             };
@@ -71,7 +74,7 @@ const Calendar = ({ groups, items }) => {
 
   return (
     <div id='calendar' className='overflow-scroll border border-red flex-grow'>
-      <DateHeader daysRange={daysRange} />
+      <DateHeader daysRange={daysRange} scrollLeftDay={scrollLeftDay} />
       {groups.map((group, index) => {
         const groupItems = items.filter(item => item.group === index);
         return (
