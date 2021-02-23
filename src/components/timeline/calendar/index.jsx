@@ -5,9 +5,6 @@ import { create9WeeksFrame, getFutureDays, getPastDays } from './utils';
 
 const Calendar = ({ groups, items, daysRange, setDaysRange }) => {
 
-  // const [daysRange, setDaysRange] = useState([]);
-  const [scrollLeftDay, setScrollLeftDay] = useState(new Date());
-
   useEffect(() => {
     // RIGHT SCROLLING
     const targetEnd = daysRange[daysRange.length - 5];
@@ -68,7 +65,7 @@ const Calendar = ({ groups, items, daysRange, setDaysRange }) => {
 
   return (
     <div id='calendar' className='overflow-scroll border border-red flex-grow'>
-      <DateHeader daysRange={daysRange} scrollLeftDay={scrollLeftDay} />
+      <DateHeader daysRange={daysRange} />
       {groups.map((group, index) => {
         const groupItems = items.filter(item => item.group === index);
         return (
