@@ -11,7 +11,7 @@ export const create9WeeksFrame = () => {
   };
 
   currentDay = new Date();
-  for (let i = 31; i > 0; i--) {
+  for (let i = 30; i > 0; i--) {
     const nextDate = new Date(currentDay.setDate(currentDay.getDate() - 1));
     dates.push(nextDate)
   };
@@ -23,7 +23,6 @@ export const getFutureDays = (setDaysRange, container) => {
   setDaysRange(range => {
 
     const copyRange = [...range];
-    console.log('copyRange length', copyRange.length);
     if (copyRange.length === 0) return copyRange;
 
     const lastDay = copyRange[copyRange.length - 1];
@@ -43,9 +42,7 @@ export const getFutureDays = (setDaysRange, container) => {
         year: date.getFullYear(),
       };
     })
-    console.log('newDates length', newDates.length);
     copyRange.splice(0, 20);
-    console.log('sliced range length', copyRange.length);
     const sortedDays = [...copyRange, ...newDates].sort((a, b) => a.time - b.time);
     return [...sortedDays];
   });

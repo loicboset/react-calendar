@@ -2,8 +2,12 @@ import React, { useRef, useCallback } from 'react';
 
 const DateHeader = ({ daysRange }) => {
 
+  // TODO: this code makes the view jumpy when today's date
+  // appears again in the DOM ==> investigate why and how to do differently
   const todayRef = useCallback(node => {
+    console.log('useCallback');
     if (node !== null) {
+      console.log('scrollIntoView');
       node.scrollIntoView({
         inline: 'start'
       });
@@ -23,7 +27,6 @@ const DateHeader = ({ daysRange }) => {
                 id={`date-${date.day}-${date.month}-${date.year}`}
                 style={{ flex: '0 0 40px', height: '40px' }}
                 className='day  text-red-500'
-                // ref={ref}x
                 ref={isToday ? todayRef : null}
               >
                 {formatedDate}
