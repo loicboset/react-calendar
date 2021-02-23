@@ -139,6 +139,20 @@ const Timeline = () => {
     console.log('scroll Left after', calendar.scrollLeft);
   };
 
+  const handleAddDays = () => {
+    console.log('handleAddDays');
+    const calendar = document.querySelector('#calendar');
+    console.log('scroll Left before', calendar.scrollLeft);
+    setDaysRange(range => {
+      range.splice(-10, 10);
+      return [...range];
+    });
+    // 20 seems to be perfect
+    // calendar.scrollLeft += 10 * 40
+    console.log('scroll Left after', calendar.scrollLeft);
+  };
+
+
   return (
     <>
       <div id='wrapper' className='flex'>
@@ -150,6 +164,7 @@ const Timeline = () => {
       {/* <button onClick={() => handleAddDay('-')}>Add day in the past</button>
       <button onClick={() => handleAddDay('+')}>Add day in the future</button> */}
       <button onClick={handleRemoveDays}>remove days</button>
+      <button onClick={handleAddDays}>add days</button>
     </>
   );
 };

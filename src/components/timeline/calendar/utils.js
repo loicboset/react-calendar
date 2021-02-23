@@ -52,17 +52,19 @@ export const getFutureDays = (setDaysRange, container) => {
 };
 
 export const getPastDays = (setDaysRange, container) => {
-  console.log('getPastDays');
   setDaysRange(range => {
-    if (range.length === 0) return range;
-    const rangeLength = range.length;
-    const firstDay = range[0];
+    const copyRange = [...range];
+    if (copyRange.length === 0) return copyRange;
+
+    const firstDay = copyRange[0];
     let dates = [];
     let currentDay = new Date(`${firstDay.month}-${firstDay.day}-${firstDay.year}`);
-    for (let i = 0; i < 31; i++) {
+
+    for (let i = 0; i < 10; i++) {
       const nextDate = new Date(currentDay.setDate(currentDay.getDate() - 1));
       dates.push(nextDate)
     };
+
     const formatedDates = dates.map(date => {
       return {
         time: date.getTime(),
@@ -71,10 +73,11 @@ export const getPastDays = (setDaysRange, container) => {
         year: date.getFullYear(),
       };
     })
-    // range.splice(0, 31);
-    const sortedDays = [...range, ...formatedDates].sort((a, b) => a.time - b.time);
+
+    copyRange.splice(-10, 10);
+    const sortedDays = [...formatedDates, ...copyRange].sort((a, b) => a.time - b.time);
     return [...sortedDays];
   });
-  container.scrollLeft += 31 * 40;
+  container.scrollLeft += 10 * 40;
 };
 
