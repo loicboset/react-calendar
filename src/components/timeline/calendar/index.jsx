@@ -22,7 +22,9 @@ const Calendar = ({ groups, items, daysRange, setDaysRange }) => {
       let callback = (entries, observer) => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
-            getFutureDays(setDaysRange);
+            console.log('intersecting', dateElement);
+            const calendarContainer = document.querySelector('#calendar');
+            getFutureDays(setDaysRange, calendarContainer);
           };
         })
       };

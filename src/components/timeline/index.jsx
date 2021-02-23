@@ -122,6 +122,18 @@ const Timeline = () => {
   //   };
   // };
 
+  const handleRemoveDays = () => {
+    const calendar = document.querySelector('#calendar');
+    console.log('scroll Left before', calendar.scrollLeft);
+    setDaysRange(range => {
+      range.splice(0, 10);
+      return [...range];
+    });
+    // 20 seems to be perfect
+    calendar.scrollLeft -= 20 * 40
+    console.log('scroll Left after', calendar.scrollLeft);
+  };
+
   return (
     <>
       <div id='wrapper' className='flex'>
@@ -132,6 +144,7 @@ const Timeline = () => {
       <Form setGroups={setGroups} setItems={setItems} />
       {/* <button onClick={() => handleAddDay('-')}>Add day in the past</button>
       <button onClick={() => handleAddDay('+')}>Add day in the future</button> */}
+      <button onClick={handleRemoveDays}>remove days</button>
     </>
   );
 };
