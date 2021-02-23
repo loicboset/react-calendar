@@ -51,6 +51,10 @@ const Timeline = () => {
 
   }, []);
 
+  useEffect(() => {
+    console.log('number of days displayed:', daysRange.length);
+  }, [daysRange])
+
   // const handleAddDay = (operation) => {
   //   // setDaysRange(range => {
   //   //   const lastDay = new Date(range[0].time);
@@ -123,6 +127,7 @@ const Timeline = () => {
   // };
 
   const handleRemoveDays = () => {
+    console.log('handleRemoveDays');
     const calendar = document.querySelector('#calendar');
     console.log('scroll Left before', calendar.scrollLeft);
     setDaysRange(range => {
