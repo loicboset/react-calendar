@@ -45,7 +45,6 @@ export const getFutureDays = (setDaysRange, container) => {
     return [...sortedDays];
   });
   container.scrollLeft -= 20 * 40;
-  console.log('rectified', container.scrollLeft);
 };
 
 export const getPastDays = (setDaysRange, container) => {
@@ -67,10 +66,10 @@ export const getPastDays = (setDaysRange, container) => {
         year: date.getFullYear(),
       };
     })
-    // range.splice(0, 31);
+    range.splice(-10, 10);
     const sortedDays = [...range, ...formatedDates].sort((a, b) => a.time - b.time);
     return [...sortedDays];
   });
-  container.scrollLeft += 31 * 40;
+  container.scrollLeft += 20 * 40;
 };
 
