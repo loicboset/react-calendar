@@ -7,7 +7,6 @@ const Calendar = ({ groups, items, daysRange, setDaysRange }) => {
 
   // const [daysRange, setDaysRange] = useState([]);
   const [scrollLeftDay, setScrollLeftDay] = useState(new Date());
-  const [targetDay, setTargetDay] = useState(0);
 
   useEffect(() => {
     // RIGHT SCROLLING

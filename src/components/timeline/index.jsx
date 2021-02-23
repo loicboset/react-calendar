@@ -45,7 +45,7 @@ const Timeline = () => {
       return {items, groups};
     };
 
-    const mockedData = mockData(2, 2);
+    const mockedData = mockData(10, 4);
     setGroups(mockedData.groups);
     setItems(mockedData.items);
 
@@ -55,29 +55,29 @@ const Timeline = () => {
     console.log('number of days displayed:', daysRange.length);
   }, [daysRange])
 
-  const handleRemoveDays = () => {
-    console.log('handleRemoveDays');
-    const calendar = document.querySelector('#calendar');
-    console.log('scroll Left before', calendar.scrollLeft);
-    setDaysRange(range => {
-      range.splice(0, 10);
-      return [...range];
-    });
-    // 20 seems to be perfect
-    calendar.scrollLeft -= 20 * 40
-    console.log('scroll Left after', calendar.scrollLeft);
-  };
+  // const handleRemoveDays = () => {
+  //   console.log('handleRemoveDays');
+  //   const calendar = document.querySelector('#calendar');
+  //   console.log('scroll Left before', calendar.scrollLeft);
+  //   setDaysRange(range => {
+  //     range.splice(0, 10);
+  //     return [...range];
+  //   });
+  //   // 20 seems to be perfect
+  //   calendar.scrollLeft -= 20 * 40
+  //   console.log('scroll Left after', calendar.scrollLeft);
+  // };
 
-  const handleAddDays = () => {
-    console.log('handleAddDays');
-    const calendar = document.querySelector('#calendar');
-    console.log('scroll Left before', calendar.scrollLeft);
-    setDaysRange(range => {
-      range.splice(-10, 10);
-      return [...range];
-    });
-    console.log('scroll Left after', calendar.scrollLeft);
-  };
+  // const handleAddDays = () => {
+  //   console.log('handleAddDays');
+  //   const calendar = document.querySelector('#calendar');
+  //   console.log('scroll Left before', calendar.scrollLeft);
+  //   setDaysRange(range => {
+  //     range.splice(-10, 10);
+  //     return [...range];
+  //   });
+  //   console.log('scroll Left after', calendar.scrollLeft);
+  // };
 
 
   return (
@@ -90,8 +90,8 @@ const Timeline = () => {
       <Form setGroups={setGroups} setItems={setItems} />
       {/* <button onClick={() => handleAddDay('-')}>Add day in the past</button>
       <button onClick={() => handleAddDay('+')}>Add day in the future</button> */}
-      <button onClick={handleRemoveDays}>remove days</button>
-      <button onClick={handleAddDays}>add days</button>
+      {/* <button onClick={handleRemoveDays}>remove days</button>
+      <button onClick={handleAddDays}>add days</button> */}
     </>
   );
 };
